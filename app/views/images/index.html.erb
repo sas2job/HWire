@@ -1,9 +1,9 @@
 <h1>images</h1>
 <% @images.each do |image| %>
-  <%= tag.section class: 'my-5' do %>
+  <%= tag.section class: 'my-5', data: { controller: "images" } do %>
   <%= image_tag image.url, class: 'img-thumbnail rounded d-block',
     alt: image.title %>
 
-  <p><%= image.title %></p>  
-  <% end %>  
+  <p><%= image.title %></p>
+  <% end %>
 <% end%>
