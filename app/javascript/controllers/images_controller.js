@@ -27,6 +27,8 @@ export default class extends Controller {
     e.preventDefault()
     e.target.disabled = true
     e.target.classList.add(this.loadingClass)
+
+    await this.dPatch(`/api/images/${this.imageTarget.dataset.id}`,
   }
 
   getUrl(e) {
@@ -40,5 +42,16 @@ export default class extends Controller {
 
   titleTargetConnected(element) {
     console.log(element)
+  }
+
+  async dPatch(url, body) {
+    const csrfToken = document.getElementsByName('csrf-token')[0].content
+    await fetch(url, {
+      method: 'PATCH',
+      body: body,
+      headers: {
+        'X-CSRF-Token': csrfToken
+      }
+    })
   }
 }
