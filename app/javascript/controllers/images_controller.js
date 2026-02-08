@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ['image', 'title', 'save']
+  static classes = ['loading']
 
   connect(){
     const title = document.createElement('p')
@@ -18,13 +19,14 @@ export default class extends Controller {
       btn.classList = 'btn btn-primary btn-sm'
       btn.dataset.imagesTarget = 'save'
       btn.dataset.action = 'click->images#saveTitle'
-      e.target.insertAdjcentElement('afterend', btn)
+      e.target.insertAdjacentElement('afterend', btn)
     }
   }
 
   saveTitle(e){
     e.preventDefault()
     e.target.disabled = true
+    e.target.classList.add(this.loadingClass)
   }
 
   getUrl(e) {
