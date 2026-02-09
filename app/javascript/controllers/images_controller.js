@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { patch } from "@rails/request.js"
 export default class extends Controller {
   static targets = ['image', 'title', 'save']
   static classes = ['loading']
@@ -28,9 +29,9 @@ export default class extends Controller {
     e.preventDefault()
     e.target.disabled = true
     e.target.classList.add(this.loadingClass)
-    const formData = new FormData()
-    formData.append('image[title]', this.titleTarget.innerText)
-    await this.dPatch(`/api/images/${this.idValue}`, formData)
+
+    await this.dPatch(`/api/images/${this.idValue}`, JSON.stringify({
+      image: { title: this.titleTarget.innerText }}))
 
     e.target.remove()
   }
@@ -49,13 +50,9 @@ export default class extends Controller {
   // }
 
   async dPatch(url, body) {
-    const csrfToken = document.getElementsByName('csrf-token')[0].content
-    await fetch(url, {
-      method: 'PATCH',
-      body: body,
-      headers: {
-        'X-CSRF-Token': csrfToken
-      }
-    })
+    const { response } = await patch(url, { body: body })
+    if (!response.ok) {
+      raise('Failed to update image title')
+    }
   }
 }
