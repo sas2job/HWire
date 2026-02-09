@@ -6,11 +6,21 @@ class FoldersController < ApplicationController
 
   def edit; end
 
-  def update; end
+  def update
+    if @folder.update folders_params
+      redirect_to folders_path
+    else
+      render :edit
+    end
+  end
 
   private
 
   def set_folder!
     @folder = Folder.find params[:id]
+  end
+
+  def folders_params
+    params.require(:folder).permit(:title, :description)
   end
 end
