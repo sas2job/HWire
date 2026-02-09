@@ -2,6 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ['image', 'title', 'save']
   static classes = ['loading']
+  static values = { id: String }
 
   connect(){
     const title = document.createElement('p')
@@ -23,12 +24,15 @@ export default class extends Controller {
     }
   }
 
-  saveTitle(e){
+  async saveTitle(e){
     e.preventDefault()
     e.target.disabled = true
     e.target.classList.add(this.loadingClass)
+    const formData = new FormData()
+    formData.append('image[title]', this.titleTarget.innerText)
+    await this.dPatch(`/api/images/${this.idValue}`, formData)
 
-    await this.dPatch(`/api/images/${this.imageTarget.dataset.id}`,
+    e.target.remove()
   }
 
   getUrl(e) {
@@ -40,9 +44,9 @@ export default class extends Controller {
   //   console.log(element)
   // }
 
-  titleTargetConnected(element) {
-    console.log(element)
-  }
+  // titleTargetConnected(element) {
+  //   console.log(element)
+  // }
 
   async dPatch(url, body) {
     const csrfToken = document.getElementsByName('csrf-token')[0].content
