@@ -1,5 +1,7 @@
 <h1>Folders</h1>
 
-<%= render 'add_folder' %>
+<%= turbo_frame_tag Folder.new do %>
+  <%= render 'add_folder' %>
+<% end %>
 
 <%= render @folders %>
