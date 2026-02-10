@@ -1,5 +1,5 @@
 class FoldersController < ApplicationController
-  before_action :set_folder!, only: %i[edit update]
+  before_action :set_folder!, only: %i[edit update show]
 
   def index
     @folders = Folder.order created_at: :desc
@@ -17,6 +17,8 @@ class FoldersController < ApplicationController
       render :new
     end
   end
+
+  def show; end
 
   def edit; end
 
