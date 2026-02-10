@@ -32,7 +32,7 @@ class FoldersController < ApplicationController
 
   def destroy
     @folder.destroy
-
+    flash.now[:success] = 'Folder deleted!'
   end
 
   private
