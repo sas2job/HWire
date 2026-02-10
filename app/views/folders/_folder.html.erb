@@ -5,5 +5,8 @@
     <p><%= folder.description %></p>
 
     <%= link_to "Edit", edit_folder_path(folder), class: 'btn btn-primary' %>
+
+    <%= link_to "Delete", folder_path(folder), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+      class: 'btn btn-danger' %>
   </section>
 <% end %>
